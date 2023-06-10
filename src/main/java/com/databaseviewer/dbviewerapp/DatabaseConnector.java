@@ -60,7 +60,7 @@ public class DatabaseConnector {
             stringBuilder.append("</table>");
 
         } catch (SQLException e) {
-            return "Table " + tableName + " does not exist";
+            return null;
         }
 
         return stringBuilder.toString();
