@@ -2,10 +2,7 @@ package com.databaseviewer.dbviewerapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 
@@ -85,11 +82,50 @@ public class DbviewerappApplication {
 
 		stringBuilder.append("<script>");
 		stringBuilder.append("function alterDatabase() {");
-		stringBuilder.append("	window.location.href = '/';");
+		stringBuilder.append("    var userInput = document.getElementById('myTextField').value;");
+		stringBuilder.append("    var payload = {");
+		stringBuilder.append("        tableName: '").append(tableName).append("',");
+		stringBuilder.append("        pass: 'safety',");
+		stringBuilder.append("        ID: parseInt(userInput)");
+		stringBuilder.append("    };");
+		stringBuilder.append("    fetch('/remove', {");
+		stringBuilder.append("        method: 'POST',");
+		stringBuilder.append("        headers: {");
+		stringBuilder.append("            'Content-Type': 'application/json'");
+		stringBuilder.append("        },");
+		stringBuilder.append("        body: JSON.stringify(payload)");
+		stringBuilder.append("    })");
+		stringBuilder.append("    .then(response => response.text())");
+		stringBuilder.append("    .then(data => {");
+		stringBuilder.append("        console.log(data);");
+		stringBuilder.append("    })");
+		stringBuilder.append("    .catch(error => {");
+		stringBuilder.append("        console.error('Error:', error);");
+		stringBuilder.append("    });");
 		stringBuilder.append("}");
 		stringBuilder.append("</script>");
 
+
 		return stringBuilder.toString();
+	}
+
+	@PostMapping("/remove")
+	public String handlePostRequest(@RequestBody RemoveRequest requestData) {
+		String tableName = requestData.tableName();
+		String pass = requestData.pass();
+		int number = requestData.ID();
+		if (!pass.equals("safety"))
+			return "Failed to authenticate user";
+		try {
+			DatabaseConnector.removeEntry(tableName, number);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return "Failed to remove an entry";
+		}
+
+		System.out.println("String: " + tableName + " String2: " + pass + ", Number: " + number);
+		return "String: " + tableName + " String2: " + pass + ", Number: " + number;
 	}
 
 }

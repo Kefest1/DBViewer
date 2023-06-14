@@ -136,4 +136,16 @@ public class DatabaseConnector {
         }
     }
 
+    public static void removeEntry(String tableName, int id) throws Exception {
+        var conn = getConnection();
+        String query = "DELETE FROM " + tableName + " WHERE id = " + id;
+        System.out.println(query);
+        Statement statement = conn.createStatement();
+        System.out.println("1");
+        int resultSet = statement.executeUpdate(query);
+        System.out.println("2");
+        statement.close();
+        conn.close();
+    }
+
 }
