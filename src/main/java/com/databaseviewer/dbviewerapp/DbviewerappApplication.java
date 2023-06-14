@@ -75,7 +75,7 @@ public class DbviewerappApplication {
 		stringBuilder.append("<h2>Alter database content</h2>");
 		stringBuilder.append("</html>");
 
-		stringBuilder.append("<button type=\"button\" onclick=\"alterDatabase()\">goToRoot</button>");
+		stringBuilder.append("<button type=\"button\" onclick=\"alterDatabase()\">Remove by unique id</button>");
 
 		stringBuilder.append("<br><br>");
 		stringBuilder.append("<input type=\"text\" id=\"myTextField\">");
@@ -105,12 +105,23 @@ public class DbviewerappApplication {
 		stringBuilder.append("}");
 		stringBuilder.append("</script>");
 
+		stringBuilder.append("<br></br>");
+		stringBuilder.append("<h3>Alter database row:</h3>");
+
+		stringBuilder.append("<h3>Field Name:</h3>");
+		stringBuilder.append("<input type=\"text\" id=\"FieldName\">");
+
+		stringBuilder.append("<h3>New Field Name:</h3>");
+		stringBuilder.append("<input type=\"text\" id=\"NewValue\">");
+
+		stringBuilder.append("<h3>Row's ID:</h3>");
+		stringBuilder.append("<input type=\"text\" id=\"RowID\">");
 
 		return stringBuilder.toString();
 	}
 
 	@PostMapping("/remove")
-	public String handlePostRequest(@RequestBody RemoveRequest requestData) {
+	public String removeTable(@RequestBody RemoveRequest requestData) {
 		String tableName = requestData.tableName();
 		String pass = requestData.pass();
 		int number = requestData.ID();
@@ -126,6 +137,28 @@ public class DbviewerappApplication {
 
 		System.out.println("String: " + tableName + " String2: " + pass + ", Number: " + number);
 		return "String: " + tableName + " String2: " + pass + ", Number: " + number;
+	}
+
+	@PostMapping("/alter")
+	public String alterTable(@RequestBody AlterRequest alterRequest) {
+		String pass = alterRequest.pass();
+		String tableName = alterRequest.tableName();
+		String columnName = alterRequest.columnName();
+		String newValue = alterRequest.newValue();
+		int id = alterRequest.ID();
+//		return pass + " " + tableName + " " + columnName + " " + newValue + " " + id;
+
+		if (!pass.equals("safety"))
+			return "Failed to authenticate user";
+
+		try {
+			DatabaseConnector.alterEntry(tableName, columnName, newValue, id);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return "Failed to update";
+		}
+		return "Ok";
 	}
 
 }

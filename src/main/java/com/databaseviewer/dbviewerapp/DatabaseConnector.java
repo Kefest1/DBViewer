@@ -2,8 +2,6 @@ package com.databaseviewer.dbviewerapp;
 
 import java.sql.*;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 
 public class DatabaseConnector {
     private static final String jdbcUrl = "jdbc:postgresql://ep-wild-bush-363371.eu-central-1.aws.neon.tech/neondb";
@@ -144,6 +142,18 @@ public class DatabaseConnector {
         System.out.println("1");
         int resultSet = statement.executeUpdate(query);
         System.out.println("2");
+        statement.close();
+        conn.close();
+    }
+
+    public static void alterEntry(String tableName, String columnName, String newValue, int id) throws Exception {
+        var conn = getConnection();
+
+        String query = "UPDATE " + tableName + " SET " + columnName + " = '" + newValue + "' WHERE ID = " + id;
+        Statement statement = conn.createStatement();
+        System.out.println(query);
+        statement.executeUpdate(query);
+
         statement.close();
         conn.close();
     }
