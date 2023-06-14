@@ -17,7 +17,7 @@ public class DbviewerappApplication {
 
 	@GetMapping
 	public String test() {
-		return "Dupa";
+		return "123";
 	}
 
 }
