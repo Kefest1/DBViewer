@@ -4,5 +4,4 @@ public record RemoveRequest(
         String pass,
         String tableName,
         int ID) {
-
 }

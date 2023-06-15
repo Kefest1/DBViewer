@@ -59,6 +59,9 @@ public class DbviewerappApplication {
 	@GetMapping("/tables/{tableName}")
 	public String getTableContent(@PathVariable String tableName) {
 		StringBuilder stringBuilder = new StringBuilder("<html>");
+		stringBuilder.append("<head>");
+		stringBuilder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">");
+		stringBuilder.append("</head>");
 		String content = DatabaseConnector.getTableContent(tableName);
 		if (content == null) {
 			stringBuilder.append("<h4>Table \"").append(tableName).append("\" does not exists</h4>");
@@ -69,7 +72,7 @@ public class DbviewerappApplication {
 		stringBuilder.append(content);
 
 		stringBuilder.append("<br><br>");
-		stringBuilder.append("<button type=\"button\" onclick=\"goToRoot()\">goToRoot</button>");
+		stringBuilder.append("<button class=\"custom-button\" type=\"button\" onclick=\"goToRoot()\">goToRoot</button>");
 
 		stringBuilder.append("<script>");
 		stringBuilder.append("function goToRoot() {");
@@ -80,7 +83,7 @@ public class DbviewerappApplication {
 		stringBuilder.append("<h2>Alter database content</h2>");
 		stringBuilder.append("</html>");
 
-		stringBuilder.append("<button type=\"button\" onclick=\"alterDatabase()\">Remove by unique id</button>");
+		stringBuilder.append("<button class=\"custom-button\" type=\"button\" onclick=\"alterDatabase()\">Remove by unique id</button>");
 
 		stringBuilder.append("<br><br>");
 		stringBuilder.append("<input type=\"text\" id=\"myTextField\" required>");
@@ -121,8 +124,8 @@ public class DbviewerappApplication {
 
 		stringBuilder.append("<h3>Row's ID:</h3>");
 		stringBuilder.append("<input type=\"text\" id=\"RowID\">");
-
-		stringBuilder.append("<button type=\"button\" onclick=\"alterTableEntry()\">Alter table</button>");
+		stringBuilder.append("<br></br>");
+		stringBuilder.append("<button class=\"custom-button\" type=\"button\" onclick=\"alterTableEntry()\">Alter table</button>");
 
 		stringBuilder.append("<script>");
 		stringBuilder.append("function alterTableEntry() {");
@@ -154,6 +157,7 @@ public class DbviewerappApplication {
 		stringBuilder.append("    });");
 		stringBuilder.append("}");
 		stringBuilder.append("</script>");
+
 		stringBuilder.append("</html>");
 
 		return stringBuilder.toString();
