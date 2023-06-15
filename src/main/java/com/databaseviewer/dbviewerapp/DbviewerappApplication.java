@@ -28,32 +28,36 @@ public class DbviewerappApplication {
 
 	@GetMapping("")
 	public String test() {
-		StringBuilder stringBuilder = new StringBuilder("<html>");
-		stringBuilder.append("<head>");
-		stringBuilder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">");
-		stringBuilder.append("</head>");
+		try {
+			StringBuilder stringBuilder = new StringBuilder("<html>");
+			stringBuilder.append("<head>");
+			stringBuilder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">");
+			stringBuilder.append("</head>");
 
-		stringBuilder.append("<h4>Currently using " + DatabaseConnector.getDatabaseName() + " database.</h4>\n");
-		HashSet<String> hashSet = DatabaseConnector.getDatabaseInfo();
+			stringBuilder.append("<h4>Currently using " + DatabaseConnector.getDatabaseName() + " database.</h4>\n");
+			HashSet<String> hashSet = DatabaseConnector.getDatabaseInfo();
 
-		stringBuilder.append("<form id=\"myForm\">");
-		stringBuilder.append("<select id=\"tableNameSelect\">");
-		hashSet.forEach(option -> stringBuilder.append("<option>").append(option).append("</option>"));
-		stringBuilder.append("</select>");
-		stringBuilder.append("</form>");
+			stringBuilder.append("<form id=\"myForm\">");
+			stringBuilder.append("<select id=\"tableNameSelect\">");
+			hashSet.forEach(option -> stringBuilder.append("<option>").append(option).append("</option>"));
+			stringBuilder.append("</select>");
+			stringBuilder.append("</form>");
 
-		stringBuilder.append("<button class=\"custom-button\" type=\"button\" onclick=\"gotoTable()\">Pokaż zawartość tabeli</button>");
+			stringBuilder.append("<button class=\"custom-button\" type=\"button\" onclick=\"gotoTable()\">Pokaż zawartość tabeli</button>");
 
-		// stringBuilder.append("<div id=\"displayDiv\"></div>");
+			// stringBuilder.append("<div id=\"displayDiv\"></div>");
 
-		stringBuilder.append("<script>");
-		stringBuilder.append("function gotoTable() {");
-		stringBuilder.append("	var tableName = document.getElementById('tableNameSelect').value;");
-		stringBuilder.append("	window.location.href = '/tables/' + tableName;");
-		stringBuilder.append("}");
-		stringBuilder.append("</script>");
+			stringBuilder.append("<script>");
+			stringBuilder.append("function gotoTable() {");
+			stringBuilder.append("	var tableName = document.getElementById('tableNameSelect').value;");
+			stringBuilder.append("	window.location.href = '/tables/' + tableName;");
+			stringBuilder.append("}");
+			stringBuilder.append("</script>");
 
-		return stringBuilder.toString();
+			return stringBuilder.toString();
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 	}
 
 	@GetMapping("/tables/{tableName}")
@@ -81,7 +85,7 @@ public class DbviewerappApplication {
 		stringBuilder.append("</script>");
 
 		stringBuilder.append("<h2>Alter database content</h2>");
-		stringBuilder.append("</html>");
+		// stringBuilder.append("</html>");
 
 		stringBuilder.append("<button class=\"custom-button\" type=\"button\" onclick=\"alterDatabase()\">Remove by unique id</button>");
 
