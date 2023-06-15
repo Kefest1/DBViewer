@@ -83,7 +83,7 @@ public class DbviewerappApplication {
 		stringBuilder.append("<button type=\"button\" onclick=\"alterDatabase()\">Remove by unique id</button>");
 
 		stringBuilder.append("<br><br>");
-		stringBuilder.append("<input type=\"text\" id=\"myTextField\">");
+		stringBuilder.append("<input type=\"text\" id=\"myTextField\" required>");
 
 		stringBuilder.append("<script>");
 		stringBuilder.append("function alterDatabase() {");
