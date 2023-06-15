@@ -6,5 +6,4 @@ public record AlterRequest(
         String columnName,
         String newValue,
         int ID) {
-
 }

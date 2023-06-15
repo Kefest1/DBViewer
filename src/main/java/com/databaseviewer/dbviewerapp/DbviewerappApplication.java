@@ -117,6 +117,39 @@ public class DbviewerappApplication {
 		stringBuilder.append("<h3>Row's ID:</h3>");
 		stringBuilder.append("<input type=\"text\" id=\"RowID\">");
 
+		stringBuilder.append("<button type=\"button\" onclick=\"alterTableEntry()\">Alter table</button>");
+
+		stringBuilder.append("<script>");
+		stringBuilder.append("function alterTableEntry() {");
+		stringBuilder.append("    var fieldName = document.getElementById('FieldName').value;");
+		stringBuilder.append("    var newValue = document.getElementById('NewValue').value;");
+		stringBuilder.append("    var rowID = document.getElementById('RowID').value;");
+
+		stringBuilder.append("    var payload = {");
+		stringBuilder.append("        pass: 'safety',");
+		stringBuilder.append("        tableName: '").append(tableName).append("',");
+		stringBuilder.append("        columnName: document.getElementById('FieldName').value,");
+		stringBuilder.append("        newValue: newValue,");
+		stringBuilder.append("        ID: rowID");
+		stringBuilder.append("    };");
+
+		stringBuilder.append("    fetch('/alter', {");
+		stringBuilder.append("        method: 'POST',");
+		stringBuilder.append("        headers: {");
+		stringBuilder.append("            'Content-Type': 'application/json'");
+		stringBuilder.append("        },");
+		stringBuilder.append("        body: JSON.stringify(payload)");
+		stringBuilder.append("    })");
+		stringBuilder.append("    .then(response => response.text())");
+		stringBuilder.append("    .then(data => {");
+		stringBuilder.append("        console.log(data);");
+		stringBuilder.append("    })");
+		stringBuilder.append("    .catch(error => {");
+		stringBuilder.append("        console.error('Error:', error);");
+		stringBuilder.append("    });");
+		stringBuilder.append("}");
+		stringBuilder.append("</script>");
+
 		return stringBuilder.toString();
 	}
 
@@ -147,7 +180,7 @@ public class DbviewerappApplication {
 		String newValue = alterRequest.newValue();
 		int id = alterRequest.ID();
 //		return pass + " " + tableName + " " + columnName + " " + newValue + " " + id;
-
+		System.out.println(pass + " " + tableName + " " + columnName + " " + newValue + " " + id);
 		if (!pass.equals("safety"))
 			return "Failed to authenticate user";
 
