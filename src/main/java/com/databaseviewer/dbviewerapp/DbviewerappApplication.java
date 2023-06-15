@@ -28,7 +28,12 @@ public class DbviewerappApplication {
 
 	@GetMapping("")
 	public String test() {
-		StringBuilder stringBuilder = new StringBuilder("<h4>Currently using " + DatabaseConnector.getDatabaseName() + " database.</h4>\n");
+		StringBuilder stringBuilder = new StringBuilder("<html>");
+		stringBuilder.append("<head>");
+		stringBuilder.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">");
+		stringBuilder.append("</head>");
+
+		stringBuilder.append("<h4>Currently using " + DatabaseConnector.getDatabaseName() + " database.</h4>\n");
 		HashSet<String> hashSet = DatabaseConnector.getDatabaseInfo();
 
 		stringBuilder.append("<form id=\"myForm\">");
@@ -37,7 +42,7 @@ public class DbviewerappApplication {
 		stringBuilder.append("</select>");
 		stringBuilder.append("</form>");
 
-		stringBuilder.append("<button type=\"button\" onclick=\"gotoTable()\">Pokaż zawartość tabeli</button>");
+		stringBuilder.append("<button class=\"custom-button\" type=\"button\" onclick=\"gotoTable()\">Pokaż zawartość tabeli</button>");
 
 		// stringBuilder.append("<div id=\"displayDiv\"></div>");
 
@@ -149,6 +154,7 @@ public class DbviewerappApplication {
 		stringBuilder.append("    });");
 		stringBuilder.append("}");
 		stringBuilder.append("</script>");
+		stringBuilder.append("</html>");
 
 		return stringBuilder.toString();
 	}
